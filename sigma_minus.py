@@ -17,4 +17,8 @@ def Sigmam_gen(level,F,i):
     sigmamN = tensor(q_list)
     return sigmamN
 
+#F = N + S
+
+    
+
 

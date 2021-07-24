@@ -28,3 +28,21 @@ def excited_population_n(N,n):
             list_state[x] = basis(2,1)
     return projector_total
 
+def excited_population_n_gen(N,n,F):
+    LISTA = [i for i in range(0,N)]
+    index = list(combinations(LISTA,n))
+    list_state = [basis(2,1)]*F
+    projector_total = 0
+    for item in index:
+        for i in range(0,n):
+            x = item[i]
+            list_state[x] = basis(2,0)
+        psi_n = (tensor(list_state)).unit()
+        projector_total += psi_n*psi_n.dag()
+        for j in range(0,n):
+            x = item[j]
+            list_state[x] = basis(2,1)
+    return projector_total
+
+
+

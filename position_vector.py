@@ -5,6 +5,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.linalg as la
 
+
+
+    
+
 def position_vector(d,N):
     R = [[0,0,0]]
     j = 0
