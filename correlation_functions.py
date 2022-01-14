@@ -16,6 +16,7 @@ import sigma_plus
 import sigma_minus
 
 
+
 def g2_0(N,R,g,Omega,Delta,k_vec,c_ops,k,n_hat,level):
     H = hamiltonian.Hamiltonian(N,R,g,Omega,Delta,k_vec)
     result = steadystate(H,c_ops)
@@ -24,7 +25,8 @@ def g2_0(N,R,g,Omega,Delta,k_vec,c_ops,k,n_hat,level):
     numerator = expect(E_m*E_m*E_p*E_p,result)
     denominator = (expect(E_m*E_p,result))**2
     g2_0 = np.divide(numerator,denominator)
-    return g2_0
+    G2_0 = numerator
+    return g2_0,G2_0
 
 def g3_0(N,R,g,Omega,Delta,k_vec,c_ops,k,n_hat,level):
     H = hamiltonian.Hamiltonian(N,R,g,Omega,Delta,k_vec)
@@ -55,14 +57,6 @@ def G1_0(N,R,g,Omega,Delta,k_vec,c_ops,k,n_hat,level):
     G1_0 = expect(E_m*E_p,result)
     return G1_0
 
-
-def G2_0(N,R,g,Omega,Delta,k_vec,c_ops,k,n_hat,level):
-    H = hamiltonian.Hamiltonian(N,R,g,Omega,Delta,k_vec)
-    result = steadystate(H,c_ops)
-    E_p = electric_field.E(N,k,n_hat,R,level,'plus')
-    E_m = electric_field.E(N,k,n_hat,R,level,'minus')
-    G2_0 = expect(E_m*E_m*E_p*E_p,result)
-    return G2_0
 
 def G3_0(N,R,g,Omega,Delta,k_vec,c_ops,k,n_hat,level):
     H = hamiltonian.Hamiltonian(N,R,g,Omega,Delta,k_vec)
@@ -123,7 +117,21 @@ def g21_T(N,R,g,Omega,Delta,k_vec,c_ops,k,n_hat,level,taulist):
      g21_T = np.divide(correlation_3op_1t(H,result,taulist,c_ops,A,B,C,solver = 'me'),
                        np.multiply(expect(E_m*E_m*E_p*E_p,result),expect(E_m*E_p,result)))
      return g21_T
-     
+
+ 
+
+def intensity_sensor(N,F,level,result):
+    ksiP_list = []
+    ksiM_list = []
+    for i in range(N,F):
+        ksiP_i = sigma_plus.Sigmap_gen(level,F,i)
+        ksiM_i = sigma_minus.Sigmam_gen(level,F,i)
+        ksiP_list.append(ksiP_i)
+        ksiM_list.append(ksiM_i)
+    intensity = expect(ksiP_list[0]*ksiP_list[1]*ksiM_list[0]*ksiM_list[1],result)
+    return intensity
+    
+
 def g2_sensor(N,F,level,result):  
     ksiP_list = []
     ksiM_list = []
@@ -135,7 +143,22 @@ def g2_sensor(N,F,level,result):
     num = expect(ksiP_list[0]*ksiP_list[1]*ksiM_list[0]*ksiM_list[1],result)
     den = expect(ksiP_list[0]*ksiM_list[0],result)*expect(ksiP_list[1]*ksiM_list[1],result)
     g2 = num/den
-    return g2
+    G2 = num
+    return g2,G2
+
+def g3_sensor(N,F,level,result):  
+    ksiP_list = []
+    ksiM_list = []
+    for i in range(N,F):
+        ksiP_i = sigma_plus.Sigmap_gen(level,F,i)
+        ksiM_i = sigma_minus.Sigmam_gen(level,F,i)
+        ksiP_list.append(ksiP_i)
+        ksiM_list.append(ksiM_i)
+    num = expect(ksiP_list[0]*ksiP_list[1]*ksiP_list[2]*ksiM_list[0]*ksiM_list[1]*ksiM_list[2],result)
+    den = expect(ksiP_list[0]*ksiM_list[0],result)*expect(ksiP_list[1]*ksiP_list[2]*ksiM_list[1]*ksiM_list[2],result)
+    g3 = num/den
+    G3 = num
+    return g3,G3
 
 
     
