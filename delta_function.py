@@ -23,7 +23,7 @@ def delta_escalar(N,R,k0,Gamma):
             if i != j:
                 R_ij = np.add(R[i],np.multiply(-1.0,R[j]))
                 r_ij = np.linalg.norm(R_ij)
-                delta_matrix[i,j] = 0.5*Gamma*math.cos(k0*r_ij)/(k0*r_ij)
+                delta_matrix[i,j] = -0.5*Gamma*math.cos(k0*r_ij)/(k0*r_ij)
     return delta_matrix
                 
             

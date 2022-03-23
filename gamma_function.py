@@ -24,9 +24,8 @@ def gamma_escalar(N,R,k0,Gamma):
             if i != j:
                 R_ij = np.add(R[i],np.multiply(-1.0,R[j]))
                 r_ij = np.linalg.norm(R_ij)
-                gamma_matrix[i,j] = 0.5*Gamma*math.sin(k0*r_ij)/k0*r_ij
+                gamma_matrix[i,j] = 0.5*Gamma*math.sin(k0*r_ij)/(k0*r_ij)
             else:
                 gamma_matrix[i,j] = Gamma/2
     return gamma_matrix
 
-                

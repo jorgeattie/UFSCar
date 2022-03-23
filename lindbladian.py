@@ -20,24 +20,24 @@ def Lindbladian(N,f):
     #print(L)
     return L
 
-def Lindbladian_gen(N,f,F,level):
+def Lindbladian_gen(N,f,F,level_a,level_s,S):
     L = []
     L_parc = 0
     for i in range(0,N):
-        SgmM_i = sigma_minus.Sigmam_gen(level,F,i)
+        SgmM_i = sigma_minus.Sigmam_gen_mLevel(N,S,F,level_a,level_s,i)
         for j in range(0,N):
-            SgmP_j = sigma_plus.Sigmap_gen(level,F,i)
+            SgmP_j = sigma_plus.Sigmap_gen_mLevel(N,S,F,level_a,level_s,i)
             L.append(0.5*f[i,j]*(2*(qutip.spre(SgmM_i)*qutip.spost(SgmP_j)) - (qutip.spre(SgmP_j*SgmM_i) + qutip.spost(SgmP_j*SgmM_i))))    
             #L.append(0.5*L_parc)
     #print(L)
     return L
 
-def Lindbladian_Sensors(N,F,level,Gamma_s):
+def Lindbladian_Sensors(N,F,level_a,level_s,Gamma_s,S):
     L = []
     L_parc = 0
     for i in range(N,F):
-        ksiP = sigma_plus.Sigmap_gen(level,F,i)
-        ksiM = sigma_minus.Sigmam_gen(level,F,i)
+        ksiP = sigma_plus.Sigmap_gen_mLevel(N,S,F,level_a,level_s,i)
+        ksiM = sigma_minus.Sigmam_gen_mLevel(N,S,F,level_a,level_s,i)
         L.append(0.5*Gamma_s*(2*(qutip.spre(ksiM)*qutip.spost(ksiP)) - qutip.spre(ksiP*ksiM) - qutip.spost(ksiP*ksiM)))
         #L.append((Gamma_s/2)*L_parc)
     return L
