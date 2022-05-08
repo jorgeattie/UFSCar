@@ -31,3 +31,20 @@ def E_gen(N,level,F,signal,n_hat,R,k):
             E +=  np.exp(1j*k*np.dot(n_hat,R[i]))*sigma_plus.Sigmap_gen(level,F,i)   
     return E
 
+def E_gen_mLevel(N,signal,n_hat,R,k,S,F,level_a,level_s):
+    E = 0 
+    for i in range(0,N):
+        if signal == 'plus':
+            E += np.exp(-1j*k*np.dot(n_hat,R[i]))*sigma_minus.Sigmam_gen_mLevel(N,S,F,level_a,level_s,i)
+        else:
+            E += np.exp(1j*k*np.dot(n_hat,R[i]))*sigma_plus.Sigmap_gen_mLevel(N,S,F,level_a,level_s,i)
+    return E
+
+
+
+
+
+
+
+
+

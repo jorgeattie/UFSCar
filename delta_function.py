@@ -13,7 +13,7 @@ def g_matrix(Gamma,R,P,k0,N):
         for j in range(0,N):
             G_ij = green_tensor.Green_Tensor(Gamma,R,k0,i,j)
             G_real = np.real(G_ij)
-            g[i,j] = np.tensordot(np.conj(P[i]),np.tensordot(G_real,P[j],axes=1),axes=1)   
+            g[i,j] = np.tensordot(np.conj(P[i]),np.tensordot(G_real,P[j],axes=1),axes=1)               
     return g
 
 def delta_escalar(N,R,k0,Gamma):
@@ -23,7 +23,7 @@ def delta_escalar(N,R,k0,Gamma):
             if i != j:
                 R_ij = np.add(R[i],np.multiply(-1.0,R[j]))
                 r_ij = np.linalg.norm(R_ij)
-                delta_matrix[i,j] = 0.5*Gamma*math.cos(k0*r_ij)/(k0*r_ij)
+                delta_matrix[i,j] = -0.5*Gamma*math.cos(k0*r_ij)/(k0*r_ij)
     return delta_matrix
                 
             
